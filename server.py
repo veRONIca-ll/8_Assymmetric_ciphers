@@ -11,7 +11,7 @@ def send_(conn, msg, p_k):
 	conn.send(pickle.dumps(en_de_crypt(msg, p_k)))
 
 def recv_(conn, k):
-	msg=en_de_crypt(pickle.loads(conn.recv(1024)), K)
+	msg=en_de_crypt(pickle.loads(conn.recv(1024)), k)
 	return msg
 
 HOST = '127.0.0.1'
@@ -41,9 +41,11 @@ conn.send(pickle.dumps(B))
 
 K = A ** b %p
 while True:
-	
-	msg = recv_(conn, K)
-	print(msg)
-	send_(conn, 'понял принял', K)
+	try:
+		msg = recv_(conn, K)
+		print(msg)
+		send_(conn, 'понял принял', K)
+	except:
+		break
 
 conn.close()

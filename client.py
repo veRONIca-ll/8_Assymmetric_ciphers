@@ -6,7 +6,7 @@ def en_de_crypt(msg, key):
 	return ''.join(secret)
 
 def send_(conn, msg, p_k):
-	sock.send(pickle.dumps(en_de_crypt(msg, K)))
+	sock.send(pickle.dumps(en_de_crypt(msg, p_k)))
 
 def recv_(conn, k):
 	msg=en_de_crypt(pickle.loads(sock.recv(1024)), k)
@@ -31,15 +31,14 @@ B = pickle.loads(sock.recv(1024))
 
 K = B ** a % p
 
-msg = input()
+msg = input('in> ')
 while True: 
 	try:
 		if msg=='exit':
 			break
 		send_(sock, msg, K)
-		print('...<msg is sent>...')
-		print(recv_(sock, K))
-		msg=input()
+		print('out> ' + recv_(sock, K))
+		msg=input('in> ')
 	except:
 		break
 
